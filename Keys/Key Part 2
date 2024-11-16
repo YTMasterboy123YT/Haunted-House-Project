@@ -1,0 +1,43 @@
+local KeyPart = {}
+KeyPart.__index = KeyPart
+
+function KeyPart:new()
+    local part = Instance.new("Part")
+    part.Name = "KeyPart"
+    part.Size = Vector3.new(1, 1, 1)
+    part.Color = Color3.fromRGB(0, 255, 0)
+    part.Anchored = true
+    part.CanCollide = true
+    part:SetAttribute("IsKeyPart", true)
+    part.Parent = workspace
+    return part
+end
+
+function KeyPart:destroy()
+    if self then
+        self:Destroy()
+    end
+end
+
+function KeyPart:changeColor(color)
+    self.Color = color or Color3.fromRGB(0, 255, 0)
+end
+
+function KeyPart:setPosition(position)
+    self.Position = position
+end
+
+function KeyPart:playSound()
+    local sound = Instance.new("Sound")
+    sound.SoundId = "rbxassetid:// (Add A Sound here Sleepy Or TheCoolFreind)
+    sound.Parent = self
+    sound:Play()
+end
+
+function KeyPart:onTouch(otherPart)
+    if otherPart:IsA("Player") then
+        self:playSound()
+    end
+end
+
+return KeyPart
