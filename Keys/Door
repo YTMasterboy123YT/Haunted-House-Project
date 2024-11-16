@@ -1,0 +1,51 @@
+local Door = {}
+Door.__index = Door
+
+function Door:new()
+    local self = setmetatable({}, Door)
+    self.isLocked = true
+    return self
+end
+
+function Door:openDoor()
+    if self.isLocked then
+        self.isLocked = false
+    end
+end
+
+function Door:useKeyPart(keyPart)
+    if keyPart:GetAttribute("IsKeyPart") and self.isLocked then
+        self:openDoor()
+    end
+end
+
+function Door:checkCode(code)
+    local correctCode = "1234"
+    if code == correctCode then
+        self:openDoor()
+    end
+end
+
+function Door:lock()
+    self.isLocked = true
+end
+
+function Door:status()
+    return self.isLocked
+end
+
+function Door:playOpenSound()
+    local sound = Instance.new("Sound")
+    sound.SoundId = "rbxassetid://33445566"  -- Replace with actual Sound ID
+    sound.Parent = workspace
+    sound:Play()
+end
+
+function Door:openAndPlay()
+    self:openDoor()
+    if not self.isLocked then
+        self:playOpenSound()
+    end
+end
+
+return Door
