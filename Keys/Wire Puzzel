@@ -1,0 +1,44 @@
+local WiringPuzzle = {}
+WiringPuzzle.__index = WiringPuzzle
+
+function WiringPuzzle:new()
+    local self = setmetatable({}, WiringPuzzle)
+    self.isSolved = false
+    return self
+end
+
+function WiringPuzzle:solvePuzzle()
+    if not self.isSolved then
+        self.isSolved = true
+    end
+end
+
+function WiringPuzzle:resetPuzzle()
+    self.isSolved = false
+end
+
+function WiringPuzzle:isCompleted()
+    return self.isSolved
+end
+
+function WiringPuzzle:attemptWiring()
+    if not self.isSolved then
+        self:solvePuzzle()
+    end
+end
+
+function WiringPuzzle:playSolveSound()
+    local sound = Instance.new("Sound")
+    sound.SoundId = "rbxassetid://22334455"  -- Replace with actual Sound ID
+    sound.Parent = workspace
+    sound:Play()
+end
+
+function WiringPuzzle:solveAndPlay()
+    self:attemptWiring()
+    if self:isCompleted() then
+        self:playSolveSound()
+    end
+end
+
+return WiringPuzzle
