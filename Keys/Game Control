@@ -1,0 +1,51 @@
+local CraftingBench = require(game.ServerScriptService.CraftingBench)
+local WiringPuzzle = require(game.ServerScriptService.WiringPuzzle)
+local Door = require(game.ServerScriptService.Door)
+
+local gameControl = {}
+gameControl.craftingBench = CraftingBench:new()
+gameControl.wiringPuzzle = WiringPuzzle:new()
+gameControl.door = Door:new()
+
+function gameControl:onBrokenKeyPartCollected(part)
+    gameControl.craftingBench:addBrokenKeyPart(part)
+end
+
+function gameControl:onAttemptCraft()
+    gameControl.craftingBench:startCrafting()
+end
+
+function gameControl:onWiringPuzzleSolved()
+    gameControl.wiringPuzzle:solveAndPlay()
+    if gameControl.wiringPuzzle:isCompleted() then
+        gameControl.door:openAndPlay()
+    end
+end
+
+function gameControl:onCodeEntered(code)
+    gameControl.door:checkCode(code)
+end
+
+workspace.CraftingBench.Touched:Connect(function(hit)
+    if hit:IsA("Player") then
+        gameControl:onAttemptCraft()
+    end
+end)
+
+workspace.BrokenKeyPart.Touched:Connect(function(hit)
+    if hit:IsA("Player") then
+        gameControl:onBrokenKeyPartCollected(workspace.BrokenKeyPart)
+    end
+end)
+
+gameControl:onWiringPuzzleSolved()
+
+gameControl:onCodeEntered("1234")
+
+function gameControl:statusReport()
+    self.craftingBench:inventory()
+    self.door:status()
+    self.wiringPuzzle:hint()
+end
+
+return gameControl
