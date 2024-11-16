@@ -1,0 +1,43 @@
+local CraftingBench = {}
+CraftingBench.__index = CraftingBench
+
+function CraftingBench:new()
+    local self = setmetatable({}, CraftingBench)
+    self.brokenKeyParts = {}
+    return self
+end
+
+function CraftingBench:addBrokenKeyPart(part)
+    if part:GetAttribute("IsBrokenKeyPart") then
+        table.insert(self.brokenKeyParts, part)
+    end
+end
+
+function CraftingBench:craftKeyPart()
+    if #self.brokenKeyParts >= 3 then
+        for i = 1, 3 do
+            self.brokenKeyParts[i]:Destroy()
+        end
+        for i = 1, 3 do
+            table.remove(self.brokenKeyParts, 1)
+        end
+        
+        local KeyPart = require(game.ServerScriptService.KeyPart)
+        KeyPart:new()
+        return true  -- Indicate successful crafting
+    end
+    return false  -- Not enough parts
+end
+
+function CraftingBench:inventory()
+    return #self.brokenKeyParts
+end
+
+function CraftingBench:reset()
+    for _, part in ipairs(self.brokenKeyParts) do
+        part:Destroy()
+    end
+    self.brokenKeyParts = {}
+end
+
+return CraftingBench
