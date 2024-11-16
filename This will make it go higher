@@ -1,0 +1,3 @@
+deaths.Value = deaths.Value + 1
+
+escapes.Value = escapes.Value + 1
