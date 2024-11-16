@@ -29,7 +29,7 @@ end
 
 function BrokenKeyPart:playSound()
     local sound = Instance.new("Sound")
-    sound.SoundId = "rbxassetid://12345678"  -- Replace with actual Sound ID
+    sound.SoundId = "rbxassetid:// (Put Sound here Sleepy OR TheCoolFreind
     sound.Parent = self
     sound:Play()
 end
