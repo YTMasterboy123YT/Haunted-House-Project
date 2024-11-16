@@ -1,0 +1,13 @@
+local player = game.Players.LocalPlayer
+
+local leaderstats = Instance.new("Folder")
+leaderstats.Name = "leaderstats"
+leaderstats.Parent = player
+
+local deaths = Instance.new("IntValue")
+deaths.Name = "Deaths"
+deaths.Parent = leaderstats
+
+local escapes = Instance.new("IntValue")
+escapes.Name = "Escapes"
+escapes.Parent = leaderstats
